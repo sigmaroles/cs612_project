@@ -1,0 +1,6 @@
+s_MAX = 2**14
+s_MIN = 2**11
+s_STEP = 2**11
+t_MAX = 1000
+t_MIN = 30
+t_STEP = 85
