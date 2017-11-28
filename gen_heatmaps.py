@@ -30,9 +30,11 @@ def isSpatiallyLocal(row, s):
 if __name__=='__main__':
     font = {'family' : 'sans-serif',
         'size'   : 16,
-        'weight' : 'bold'
+        'weight' : 'bold',
         }
+    axes = { 'labelsize': 'x-large' }
     matplotlib.rc('font', **font)
+    matplotlib.rc('axes', **axes)
     #plt.rcParams["figure.figsize"] = [26, 13]
     
     data_dir = 'Trace_files'
@@ -61,13 +63,13 @@ if __name__=='__main__':
             for s in range(s_MIN, s_MAX, s_STEP):
                 # a list of booleans, indicating locality of each pair in tlist
                 local = [isSpatiallyLocal(x, s) for x in tlist]
-                kst_row.append(sum(local) / (L - t))
+                kst_row.append(sum(local) / np.abs(L - t))
             print ("\tt = ", t)
             kst.append(kst_row)
         kst = np.array(kst)
         sns.heatmap(kst, ax=ax, robust=True, annot=True, linewidth=0, xticklabels=s_ax, yticklabels=t_ax, center=kst.max())
-        ax.set_ylabel('temporal (instructions)')
-        ax.set_xlabel('spatial (bytes)')
+        ax.set_ylabel('temporal (instructions)', fontsize=18)
+        ax.set_xlabel('spatial (bytes)', fontsize=18)
         plt.savefig(wname+'_heatmap_.png')
         plt.clf()
         
