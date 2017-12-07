@@ -6,13 +6,13 @@ import os
 import seaborn as sns
 
 # parameters of the probability function
+
 s_MAX = 2**14
 s_MIN = 2**11
 s_STEP = 2**11
-t_MAX = 30
-t_MIN = 500
-t_STEP = 1200
-
+t_MAX = 1000
+t_MIN = 30
+t_STEP = 85
 
 """
 requirements to be "local" in terms of s:
@@ -69,12 +69,15 @@ if __name__=='__main__':
             tlist = np.hstack([df[t:], df[:-t]])
             # the number of references in this list of references (for this t)
             L = len(tlist)
+            if not L:
+                continue
             # now, given the t list, for each s...
             for s in range(s_MIN, s_MAX, s_STEP):
                 # calculate the local/non-local ness of each item in tlist
                 local = [isSpatiallyLocal(x, s) for x in tlist]
                 # count the matrix value (probability) and store it
-                kst_row.append(sum(local) / np.abs(L-t))
+                kst_row.append(sum(local) / L)
+                #print (kst_row[-1])
             # display progress..it can get quite slow!
             print ("\tt = ", t)
             # save the row to matrix
